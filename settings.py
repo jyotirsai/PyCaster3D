@@ -1,0 +1,3 @@
+WIDTH, HEIGHT = 1080, 720
+FPS=60
+FONT="Arial"
