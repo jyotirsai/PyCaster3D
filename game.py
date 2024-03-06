@@ -1,7 +1,8 @@
 import pygame as pg
 import sys
 from settings import *
-from menu import Menu
+from menu import *
+from map import *
 
 class Game:
     def __init__(self):
@@ -22,6 +23,7 @@ class Game:
         print("Start Game")
         self.menu.menu_running = False
         self.game_state = "in_game"
+        self.init_game()
 
     def show_settings(self):
         print("Show Settings")
@@ -29,6 +31,9 @@ class Game:
     def quit_game(self):
         pg.quit()
         sys.exit()
+    
+    def init_game(self):
+        self.map = Map(self)
 
     def update(self):
         pg.display.flip()
@@ -58,6 +63,3 @@ class Game:
                 self.draw()
             self.key_events()
 
-if __name__ == "__main__":
-    game = Game()
-    game.run()

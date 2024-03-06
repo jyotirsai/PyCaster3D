@@ -2,9 +2,6 @@ import pygame as pg
 import sys
 from settings import *
 
-import pygame as pg
-import sys
-
 class MenuButton(pg.sprite.Sprite):
     def __init__(self, text, position, font, callback=None):
         super().__init__()
