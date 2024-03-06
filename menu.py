@@ -12,7 +12,6 @@ class MenuButton(pg.sprite.Sprite):
         self.position = position
         self.font = font
         self.callback = callback
-
         self.create_surface()
 
     def create_surface(self):
@@ -29,6 +28,7 @@ class Menu:
         self.menu_background_color = (128, 128, 128)
         self.screen = screen
         self.font = pg.font.SysFont(None, 36)
+        self.menu_running = True
         self.buttons = pg.sprite.Group()
 
     def add_button(self, text, position, callback=None):
@@ -38,7 +38,7 @@ class Menu:
     def run(self):
         pg.display.set_caption("ZombieFPS")
         
-        while True:
+        while self.menu_running:
             self.screen.fill(self.menu_background_color)
             self.draw_buttons()
 

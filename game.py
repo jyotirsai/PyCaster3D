@@ -20,6 +20,7 @@ class Game:
 
     def start_game(self):
         print("Start Game")
+        self.menu.menu_running = False
         self.game_state = "in_game"
 
     def show_settings(self):
