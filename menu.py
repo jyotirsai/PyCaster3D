@@ -24,7 +24,7 @@ class Menu:
         self.text_color = (255, 255, 255)
         self.menu_background_color = (128, 128, 128)
         self.screen = screen
-        self.font = pg.font.SysFont(None, 36)
+        self.font = pg.font.SysFont(FONT, 36)
         self.menu_running = True
         self.buttons = pg.sprite.Group()
 
