@@ -37,17 +37,17 @@ class Player:
         self.angle += mouse_rel_x * self.game.delta_time * self.angle_speed 
 
     def is_wall_position(self, x, y):
-        return (x,y) not in self.game.map.world_map
+        return (x,y) in self.game.map.walls
 
     def check_wall_collision(self, dx, dy):
-        if self.is_wall_position(int(self.x+dx), int(self.y)):
+        if not self.is_wall_position(int(self.x+dx), int(self.y)):
             self.x += dx
-        if self.is_wall_position(int(self.x), int(self.y+dy)):
+        if not self.is_wall_position(int(self.x), int(self.y+dy)):
             self.y += dy
 
     def draw(self):
-        pg.draw.line(self.game.screen, 'yellow', (self.x*100, self.y*100),
-                     (self.x*100 + WIDTH * math.cos(self.angle), self.y*100 + WIDTH * math.sin(self.angle)), 2)
+        #pg.draw.line(self.game.screen, 'yellow', (self.x*100, self.y*100),
+        #             (self.x*100 + WIDTH * math.cos(self.angle), self.y*100 + WIDTH * math.sin(self.angle)), 2)
         pg.draw.circle(self.game.screen, 'green', (self.x * 100, self.y * 100), 15)
 
     def update(self):
