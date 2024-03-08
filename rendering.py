@@ -6,8 +6,8 @@ class Rendering:
     def __init__(self, game):
         self.game = game
     
-    def rendering(self):
-        ray_angle = self.game.player.angle - HALF_FOV + 0.0001
+    def raycasting(self):
+        ray_angle = self.game.player.angle - FOV/2 + 0.0001
         player_x, player_y = self.game.player.pos()
         map_x, map_y = self.game.player.map_pos()
         for ray in range(NUM_RAYS):
@@ -30,8 +30,7 @@ class Rendering:
             dx = delta_depth * cos_a
 
             for _ in range(MAX_DEPTH):
-                hori_point = int(x_hori), int(y_hori)
-                if hori_point in self.game.map.walls:
+                if (int(x_hori), int(y_hori)) in self.game.map.walls:
                     break
                 x_hori += dx
                 y_hori += dy
@@ -52,16 +51,17 @@ class Rendering:
             dy = delta_depth * sin_a
 
             for _ in range(MAX_DEPTH):
-                vert_point = int(x_vert), int(y_vert)
-                if vert_point in self.game.map.walls:
+                if (int(x_vert), int(y_vert)) in self.game.map.walls:
                     break
                 x_vert += dx
                 y_vert += dy
                 depth_vert += delta_depth
 
             depth = min(depth_vert, depth_hori)
-            pg.draw.line(self.game.screen, 'yellow', (100*player_x, 100*player_y), (100*player_x + 100*depth*cos_a, 100*player_y + 100*depth*sin_a), 2)
+            projected_height = CAMERA_PLANE_DIST / (depth + 0.000001)
+
+            pg.draw.rect(self.game.screen, 'white', (ray*SCALE, HEIGHT/2 - projected_height//2, SCALE, projected_height))
 
 
     def update(self):
-        self.rendering()
+        self.raycasting()

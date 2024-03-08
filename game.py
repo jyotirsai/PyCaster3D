@@ -49,8 +49,8 @@ class Game:
 
     def draw(self):
         self.screen.fill('black')
-        self.map.draw()
-        self.player.draw()
+        #self.map.draw()
+        #self.player.draw()
 
     def key_events(self):
         for event in pg.event.get():
