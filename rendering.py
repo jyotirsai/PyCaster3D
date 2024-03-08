@@ -45,9 +45,10 @@ class Rendering:
             dy = delta_depth * sin_a
             depth_vert = self.dda(x_vert, y_vert, dx, dy, depth_vert, delta_depth)
             
-            depth = min(depth_vert, depth_hori)
+            depth = min(depth_vert, depth_hori)*math.cos(self.game.player.angle - cur_ray)
             projected_height = CAMERA_PLANE_DIST / (depth + 0.000001)
-            pg.draw.rect(self.game.screen, 'white', (ray*SCALE, HEIGHT/2 - projected_height//2, SCALE, projected_height))
+            color = [255 / (1 + depth ** 5 * 0.00002)] * 3
+            pg.draw.rect(self.game.screen, color, (ray*SCALE, HEIGHT/2 - projected_height//2, SCALE, projected_height))
 
 
     def dda(self, x, y, dx, dy, depth, delta_depth):
