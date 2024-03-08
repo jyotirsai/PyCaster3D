@@ -30,5 +30,5 @@ class Map:
         return walls
 
     def draw(self):
-        for (x,y),val in self.walls.items():
+        for (x,y),_ in self.walls.items():
             pg.draw.rect(self.game.screen, 'darkgray', (x*100, y*100, 100, 100), 2)

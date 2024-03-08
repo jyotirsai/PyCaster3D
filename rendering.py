@@ -28,14 +28,8 @@ class Rendering:
 
             delta_depth = dy / sin_a
             dx = delta_depth * cos_a
-
-            for _ in range(MAX_DEPTH):
-                if (int(x_hori), int(y_hori)) in self.game.map.walls:
-                    break
-                x_hori += dx
-                y_hori += dy
-                depth_hori += delta_depth
-
+            depth_hori = self.dda(x_hori, y_hori, dx, dy, depth_hori, delta_depth)
+            
             # vertical intersections
             if cos_a > 0:
                 # ray moving right
@@ -49,19 +43,22 @@ class Rendering:
 
             delta_depth = dx / cos_a
             dy = delta_depth * sin_a
-
-            for _ in range(MAX_DEPTH):
-                if (int(x_vert), int(y_vert)) in self.game.map.walls:
-                    break
-                x_vert += dx
-                y_vert += dy
-                depth_vert += delta_depth
-
+            depth_vert = self.dda(x_vert, y_vert, dx, dy, depth_vert, delta_depth)
+            
             depth = min(depth_vert, depth_hori)
             projected_height = CAMERA_PLANE_DIST / (depth + 0.000001)
-
             pg.draw.rect(self.game.screen, 'white', (ray*SCALE, HEIGHT/2 - projected_height//2, SCALE, projected_height))
 
 
+    def dda(self, x, y, dx, dy, depth, delta_depth):
+        for _ in range(MAX_DEPTH):
+            if (int(x), int(y)) in self.game.map.walls:
+                break
+            x += dx
+            y += dy
+            depth += delta_depth
+        
+        return depth
+    
     def update(self):
         self.raycasting()
