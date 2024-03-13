@@ -4,7 +4,7 @@ from settings import *
 from menu import *
 from map import *
 from player import *
-from rendering import *
+from raycasting import *
 from object_renderer import *
 
 class Game:
@@ -41,11 +41,11 @@ class Game:
         self.map = Map(self)
         self.player = Player(self)
         self.object_renderer = ObjectRenderer(self)
-        self.rendering = Rendering(self)
+        self.raycasting = Raycasting(self)
 
     def update(self):
         self.player.update()
-        self.rendering.update()
+        self.raycasting.update()
         pg.display.flip()
         self.delta_time = self.clock.tick(FPS)
         pg.display.set_caption(f'{self.clock.get_fps():.1f}')

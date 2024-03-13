@@ -2,7 +2,7 @@ import pygame as pg
 import math
 from settings import *
 
-class Rendering:
+class Raycasting:
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
@@ -31,7 +31,7 @@ class Rendering:
 
             self.objects_to_render.append((depth, wall_column, wall_pos))
     
-    def raycasting(self):
+    def raycast(self):
         self.raycasting_results = []
         ray_angle = self.game.player.angle - FOV/2 + 0.0001
         player_x, player_y = self.game.player.pos()
@@ -56,7 +56,15 @@ class Rendering:
 
             delta_depth = dy / sin_a
             dx = delta_depth * cos_a
-            depth_hori, texture_hori = self.dda(x_hori, y_hori, dx, dy, depth_hori, delta_depth)
+            
+            for _ in range(MAX_DEPTH):
+                tile_hori = int(x_hori), int(y_hori)
+                if tile_hori in self.game.map.walls:
+                    texture_hori = self.game.map.walls[tile_hori]
+                    break
+                x_hori += dx
+                y_hori += dy
+                depth_hori += delta_depth
             
             # vertical intersections
             if cos_a > 0:
@@ -71,7 +79,15 @@ class Rendering:
 
             delta_depth = dx / cos_a
             dy = delta_depth * sin_a
-            depth_vert, texture_vert = self.dda(x_vert, y_vert, dx, dy, depth_vert, delta_depth)
+            
+            for _ in range(MAX_DEPTH):
+                tile_vert = int(x_vert), int(y_vert)
+                if tile_vert in self.game.map.walls:
+                    texture_vert = self.game.map.walls[tile_vert]
+                    break
+                x_vert += dx
+                y_vert += dy
+                depth_vert += delta_depth
             
             if depth_vert < depth_hori:
                 depth, texture = depth_vert, texture_vert
@@ -100,5 +116,5 @@ class Rendering:
         return depth, texture
     
     def update(self):
-        self.raycasting()
+        self.raycast()
         self.render_objects()
