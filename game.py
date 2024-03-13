@@ -5,6 +5,7 @@ from menu import *
 from map import *
 from player import *
 from rendering import *
+from object_renderer import *
 
 class Game:
     def __init__(self):
@@ -24,6 +25,7 @@ class Game:
 
     def start_game(self):
         print("Start Game")
+        pg.mouse.set_visible(False)
         self.menu.menu_running = False
         self.game_state = "in_game"
         self.init_game()
@@ -38,6 +40,7 @@ class Game:
     def init_game(self):
         self.map = Map(self)
         self.player = Player(self)
+        self.object_renderer = ObjectRenderer(self)
         self.rendering = Rendering(self)
 
     def update(self):
@@ -49,6 +52,7 @@ class Game:
 
     def draw(self):
         self.screen.fill('black')
+        self.object_renderer.draw()
         #self.map.draw()
         #self.player.draw()
 
