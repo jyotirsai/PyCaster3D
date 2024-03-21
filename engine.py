@@ -2,11 +2,11 @@ import pygame as pg
 import math
 from settings import *
 
-class Raycasting:
+class Engine:
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
-        self.wall_textures = self.game.object_renderer.wall_textures
+        self.wall_textures = self.load_wall_textures()
         self.raycasting_results = []
         self.objects_to_render = []
     
@@ -101,20 +101,16 @@ class Raycasting:
             depth *= math.cos(self.game.player.angle - cur_ray)
             projected_height = CAMERA_PLANE_DIST / (depth + 0.000001)
             self.raycasting_results.append((depth, projected_height, texture, offset))
-
-
-    def dda(self, x, y, dx, dy, depth, delta_depth):
-        texture = 1
-        for _ in range(MAX_DEPTH):
-            if (int(x), int(y)) in self.game.map.walls:
-                texture = self.game.map.walls[(int(x), int(y))]
-                break
-            x += dx
-            y += dy
-            depth += delta_depth
-        
-        return depth, texture
     
     def update(self):
         self.raycast()
         self.render_objects()
+    
+    def load_wall_textures(self):
+        return {
+            1: self.game.get_texture('resources/textures/wall.png')
+        }
+    
+    def draw(self):
+        for _, image, pos in sorted(self.objects_to_render, reverse=True):
+            self.screen.blit(image, pos)

@@ -4,8 +4,7 @@ from settings import *
 from menu import *
 from map import *
 from player import *
-from raycasting import *
-from object_renderer import *
+from engine import *
 from object_handler import *
 from weapon import *
 from pathfinder import *
@@ -40,27 +39,34 @@ class Game:
         pg.quit()
         sys.exit()
     
+    def get_texture(self, path, res=(TEXTURE_SIZE, TEXTURE_SIZE)):
+        texture = pg.image.load(path).convert_alpha()
+        return pg.transform.scale(texture, res)
+    
     def init_game(self):
         self.map = Map(self)
         self.player = Player(self)
-        self.object_renderer = ObjectRenderer(self)
-        self.raycasting = Raycasting(self)
+        self.engine = Engine(self)
         self.object_handler = ObjectHandler(self)
         self.weapon = Weapon(self)
         self.pathfinder = PathFinder(self)
 
     def update(self):
         self.player.update()
-        self.raycasting.update()
+        self.engine.update()
         self.object_handler.update()
         self.weapon.update()
         pg.display.flip()
         self.delta_time = self.clock.tick(FPS)
         pg.display.set_caption(f'{self.clock.get_fps():.1f}')
+    
+    def game_over(self):
+        game_over_image = self.get_texture('resources/textures/game_over.png', (WIDTH,HEIGHT))
+        self.screen.blit(game_over_image, (0,0))
 
     def draw(self):
         self.screen.fill('black')
-        self.object_renderer.draw()
+        self.engine.draw()
         self.weapon.draw()
         #self.map.draw()
         #self.player.draw()

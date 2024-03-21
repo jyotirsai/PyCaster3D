@@ -13,6 +13,7 @@ class Player:
         self.health = PLAYER_MAX_HEALTH
         self.health_recovery_delay = 500
         self.time_prev = pg.time.get_ticks()
+        self.blood_screen = self.game.get_texture('resources/textures/blood_screen.png', (WIDTH,HEIGHT))
     
     def health_recovery(self):
         time_now = pg.time.get_ticks()
@@ -22,12 +23,15 @@ class Player:
             if self.health < PLAYER_MAX_HEALTH:
                 self.health += 1
     
+    def player_damage(self):
+        self.game.screen.blit(self.blood_screen, (0,0))
+    
     def get_damage(self, damage):
         self.health -= damage
-        self.game.object_renderer.player_damage()
+        self.player_damage()
 
         if self.health < 1:
-            self.game.object_renderer.game_over()
+            self.game.game_over()
             pg.display.flip()
             self.game.game_state = "menu"
     
@@ -72,11 +76,6 @@ class Player:
             self.x += dx
         if not self.is_wall_position(int(self.x), int(self.y+dy*player_scale)):
             self.y += dy
-
-    def draw(self):
-        #pg.draw.line(self.game.screen, 'yellow', (self.x*100, self.y*100),
-        #             (self.x*100 + WIDTH * math.cos(self.angle), self.y*100 + WIDTH * math.sin(self.angle)), 2)
-        pg.draw.circle(self.game.screen, 'green', (self.x * 100, self.y * 100), 15)
 
     def update(self):
         self.movement()
