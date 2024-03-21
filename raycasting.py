@@ -35,7 +35,7 @@ class Raycasting:
         self.raycasting_results = []
         ray_angle = self.game.player.angle - FOV/2 + 0.0001
         player_x, player_y = self.game.player.pos()
-        map_x, map_y = self.game.player.map_pos()
+        map_x, map_y = self.game.player.map_pos
 
         texture_vert, texture_hori = 1, 1
         for ray in range(NUM_RAYS):
@@ -54,7 +54,7 @@ class Raycasting:
             depth_hori = (y_hori - player_y) / (sin_a-0.0001)
             x_hori = player_x + depth_hori * cos_a
 
-            delta_depth = dy / sin_a
+            delta_depth = dy / (sin_a+0.0001)
             dx = delta_depth * cos_a
             
             for _ in range(MAX_DEPTH):
@@ -77,7 +77,7 @@ class Raycasting:
             depth_vert = (x_vert - player_x) / (cos_a-0.0001)
             y_vert = player_y+depth_vert*sin_a
 
-            delta_depth = dx / cos_a
+            delta_depth = dx / (cos_a+0.0001)
             dy = delta_depth * sin_a
             
             for _ in range(MAX_DEPTH):

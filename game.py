@@ -6,6 +6,9 @@ from map import *
 from player import *
 from raycasting import *
 from object_renderer import *
+from object_handler import *
+from weapon import *
+from pathfinder import *
 
 class Game:
     def __init__(self):
@@ -42,10 +45,15 @@ class Game:
         self.player = Player(self)
         self.object_renderer = ObjectRenderer(self)
         self.raycasting = Raycasting(self)
+        self.object_handler = ObjectHandler(self)
+        self.weapon = Weapon(self)
+        self.pathfinder = PathFinder(self)
 
     def update(self):
         self.player.update()
         self.raycasting.update()
+        self.object_handler.update()
+        self.weapon.update()
         pg.display.flip()
         self.delta_time = self.clock.tick(FPS)
         pg.display.set_caption(f'{self.clock.get_fps():.1f}')
@@ -53,6 +61,7 @@ class Game:
     def draw(self):
         self.screen.fill('black')
         self.object_renderer.draw()
+        self.weapon.draw()
         #self.map.draw()
         #self.player.draw()
 
@@ -66,10 +75,14 @@ class Game:
                 if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
                     x, y = pg.mouse.get_pos()
                     self.menu.check_button_click((x, y))
+            
+            if self.game_state == "in_game":
+                self.player.single_fire_event(event)
 
     def run(self):
         while True:
             if self.game_state == "main_menu":
+                self.menu_running = True
                 self.menu.run()
             elif self.game_state == "in_game":
                 self.update()
