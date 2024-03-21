@@ -1,5 +1,4 @@
 from sprite_object import *
-from random import randint, random, choice
 
 class Enemies(AnimatedSprite):
     def __init__(self, game, path='resources/enemies/caco_demon/0.png', pos=(10.5, 5.5), scale=0.6, shift=0.38, animation_time=180):
@@ -10,7 +9,7 @@ class Enemies(AnimatedSprite):
         self.pain_images = self.get_images(self.path + '/pain')
         self.walk = self.get_images(self.path + '/walk')
 
-        self.attack_dist = 1.0
+        self.attack_dist = 2.0
         self.speed = 0.03
         self.size = 10
         self.health = 100
@@ -77,7 +76,7 @@ class Enemies(AnimatedSprite):
         next_pos = self.game.pathfinder.get_path(self.map_pos, self.game.player.map_pos)
         next_x, next_y = next_pos
 
-        if next_pos not in self.game.object_handler.enemy_pos:
+        if next_pos not in self.game.enemy_pos:
             angle = math.atan2(next_y + 0.5 - self.y, next_x + 0.5 - self.x)
             dx = math.cos(angle)*self.speed
             dy = math.sin(angle)*self.speed

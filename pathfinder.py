@@ -28,7 +28,7 @@ class PathFinder:
             next_nodes = graph[node]
 
             for next_node in next_nodes:
-                if next_node not in visited and next_node not in self.game.object_handler.enemy_pos:
+                if next_node not in visited and next_node not in self.game.enemy_pos:
                     q.append(next_node)
                     visited[next_node] = node
         

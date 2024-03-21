@@ -10,6 +10,15 @@ class Engine:
         self.raycasting_results = []
         self.objects_to_render = []
     
+    def update_sprites(self):
+        for sprite in self.game.sprite_list:
+            sprite.update()
+        
+    def update_enemies(self):
+        self.game.enemy_pos = {enemy.map_pos for enemy in self.game.enemies if enemy.alive}
+        for enemy in self.game.enemies:
+            enemy.update()
+    
     def render_objects(self):
         self.objects_to_render = []
         for cur_ray,values in enumerate(self.raycasting_results):
@@ -105,6 +114,8 @@ class Engine:
     def update(self):
         self.raycast()
         self.render_objects()
+        self.update_sprites()
+        self.update_enemies()
     
     def load_wall_textures(self):
         return {

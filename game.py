@@ -5,7 +5,7 @@ from menu import *
 from map import *
 from player import *
 from engine import *
-from object_handler import *
+from enemies import *
 from weapon import *
 from pathfinder import *
 
@@ -17,6 +17,9 @@ class Game:
         self.delta_time = 1
         self.game_state = "main_menu"
         self.create_menu()
+        self.enemies_path = 'resources/enemies/'
+        self.static_sprite_path = 'resources/sprites/static_sprites/'
+        self.animated_sprite_path = 'resources/sprites/animated_sprites/'
 
     def create_menu(self):
         self.menu = Menu(self.screen)
@@ -42,19 +45,31 @@ class Game:
     def get_texture(self, path, res=(TEXTURE_SIZE, TEXTURE_SIZE)):
         texture = pg.image.load(path).convert_alpha()
         return pg.transform.scale(texture, res)
+
+    def load_sprites(self):
+        self.sprite_list = []
+
+        self.sprite_list.append(SpriteObject(self))
+        self.sprite_list.append(AnimatedSprite(self))
+
+    def load_enemies(self):
+        self.enemies = []
+        self.enemy_pos = {}
+        self.enemies.append(Enemies(self))
+        self.enemies.append(Enemies(self, pos=(11.5, 4.5)))
     
     def init_game(self):
         self.map = Map(self)
         self.player = Player(self)
+        self.load_sprites()
+        self.load_enemies()
         self.engine = Engine(self)
-        self.object_handler = ObjectHandler(self)
         self.weapon = Weapon(self)
         self.pathfinder = PathFinder(self)
 
     def update(self):
         self.player.update()
         self.engine.update()
-        self.object_handler.update()
         self.weapon.update()
         pg.display.flip()
         self.delta_time = self.clock.tick(FPS)
@@ -68,8 +83,6 @@ class Game:
         self.screen.fill('black')
         self.engine.draw()
         self.weapon.draw()
-        #self.map.draw()
-        #self.player.draw()
 
     def key_events(self):
         for event in pg.event.get():
