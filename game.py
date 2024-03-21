@@ -49,9 +49,6 @@ class Game:
     def load_sprites(self):
         self.sprite_list = []
 
-        self.sprite_list.append(SpriteObject(self))
-        self.sprite_list.append(AnimatedSprite(self))
-
     def load_enemies(self):
         self.enemies = []
         self.enemy_pos = {}
@@ -66,6 +63,7 @@ class Game:
         self.engine = Engine(self)
         self.weapon = Weapon(self)
         self.pathfinder = PathFinder(self)
+        self.dead = []
 
     def update(self):
         self.player.update()

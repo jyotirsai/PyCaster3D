@@ -9,7 +9,7 @@ class Enemies(AnimatedSprite):
         self.pain_images = self.get_images(self.path + '/pain')
         self.walk = self.get_images(self.path + '/walk')
 
-        self.attack_dist = 2.0
+        self.attack_dist = 1.0
         self.speed = 0.03
         self.size = 10
         self.health = 100
@@ -18,6 +18,7 @@ class Enemies(AnimatedSprite):
         self.alive = True
         self.pain = False
         self.frame_counter = 0
+        self.death_animated = False
     
     def update(self):
         self.check_animation_time()
@@ -47,6 +48,10 @@ class Enemies(AnimatedSprite):
     def check_health(self):
         if self.health < 1:
             self.alive = False
+            self.game.dead.append(self)
+
+            if self.game.dead:
+                self.game.enemies.append(Enemies(self.game))
     
     def run_logic(self):
         if self.alive:

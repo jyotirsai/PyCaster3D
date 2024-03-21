@@ -123,5 +123,5 @@ class Engine:
         }
     
     def draw(self):
-        for _, image, pos in sorted(self.objects_to_render, reverse=True):
+        for _, image, pos in sorted(self.objects_to_render, key=lambda t: t[0], reverse=True):
             self.screen.blit(image, pos)
