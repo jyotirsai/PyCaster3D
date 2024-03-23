@@ -75,8 +75,10 @@ class Game:
         pg.display.set_caption(f'{self.clock.get_fps():.1f}')
     
     def game_over(self):
-        game_over_image = self.get_texture('resources/textures/game_over.png', (WIDTH,HEIGHT))
+        game_over_image = self.get_texture('resources/textures/game_over2.jpg', (WIDTH,HEIGHT))
+        game_over_image.set_alpha(128)
         self.screen.blit(game_over_image, (0,0))
+        self.game_state == "main_menu"
 
     def draw(self):
         self.screen.fill('black')
