@@ -1,7 +1,7 @@
 from sprite_object import *
 
 class Enemies(AnimatedSprite):
-    def __init__(self, game, path='resources/enemies/caco_demon/0.png', pos=(10.5, 5.5), scale=0.6, shift=0.38, animation_time=180):
+    def __init__(self, game, path='resources/enemies/caco_demon/0.png', pos=(10.5, 5.5), scale=0.6, shift=0.38, animation_time=180, speed=0.02, attack_damage=1):
         super().__init__(game, path, pos, scale, shift)
         self.attack_images = self.get_images(self.path + '/attack')
         self.death_images = self.get_images(self.path + '/death')
@@ -10,10 +10,10 @@ class Enemies(AnimatedSprite):
         self.walk = self.get_images(self.path + '/walk')
 
         self.attack_dist = 1.0
-        self.speed = 0.03
+        self.speed = speed
         self.size = 10
         self.health = 100
-        self.attack_damage = 1
+        self.attack_damage = attack_damage
         self.accuracy = 0.15
         self.alive = True
         self.pain = False
@@ -51,7 +51,7 @@ class Enemies(AnimatedSprite):
             self.game.dead.append(self)
 
             if self.game.dead:
-                self.game.enemies.append(Enemies(self.game))
+                self.game.enemies.append(Enemies(self.game, speed=self.speed+0.001))
 
                 if len(self.game.enemies) > 10:
                     self.game.enemies.popleft()
