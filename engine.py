@@ -16,7 +16,7 @@ class Engine:
         
     def update_enemies(self):
         self.game.enemy_pos = {enemy.map_pos for enemy in self.game.enemies if enemy.alive}
-        for enemy in self.game.enemies:
+        for enemy in list(self.game.enemies):
             enemy.update()
     
     def render_objects(self):

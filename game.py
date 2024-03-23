@@ -1,5 +1,6 @@
 import pygame as pg
 import sys
+from collections import deque
 from settings import *
 from menu import *
 from map import *
@@ -50,7 +51,7 @@ class Game:
         self.sprite_list = []
 
     def load_enemies(self):
-        self.enemies = []
+        self.enemies = deque()
         self.enemy_pos = {}
         self.enemies.append(Enemies(self))
         self.enemies.append(Enemies(self, pos=(11.5, 4.5)))

@@ -52,6 +52,9 @@ class Enemies(AnimatedSprite):
 
             if self.game.dead:
                 self.game.enemies.append(Enemies(self.game))
+
+                if len(self.game.enemies) > 10:
+                    self.game.enemies.popleft()
     
     def run_logic(self):
         if self.alive:
