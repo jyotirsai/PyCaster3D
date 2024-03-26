@@ -1,7 +1,7 @@
 from sprite_object import *
 
 class Enemies(AnimatedSprite):
-    def __init__(self, game, path='resources/enemies/soldier/0.png', pos=(10.5, 5.5), scale=0.75, shift=0.1, animation_time=180, speed=0.02, attack_damage=1):
+    def __init__(self, game, path='resources/enemies/soldier/0.png', pos=(13.5, 2.5), scale=0.75, shift=0.1, animation_time=180, speed=0.02, attack_damage=1):
         super().__init__(game, path, pos, scale, shift)
         self.attack_images = self.get_images(self.path + '/attack')
         self.death_images = self.get_images(self.path + '/death')

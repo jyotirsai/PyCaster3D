@@ -26,7 +26,6 @@ class Game:
         self.menu = Menu(self.screen)
 
         self.menu.add_button("Start Game", (WIDTH // 2, HEIGHT // 2), callback=self.start_game)
-        self.menu.add_button("Settings", (WIDTH // 2, HEIGHT // 2 + 50), callback=self.show_settings)
         self.menu.add_button("Exit", (WIDTH // 2, HEIGHT // 2 + 100), callback=self.quit_game)
 
     def start_game(self):

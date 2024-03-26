@@ -33,7 +33,7 @@ class Menu:
         self.buttons.add(button)
 
     def run(self):
-        pg.display.set_caption("ZombieFPS")
+        pg.display.set_caption("Game")
         
         while self.menu_running:
             self.screen.fill(self.menu_background_color)
